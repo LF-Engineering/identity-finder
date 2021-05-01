@@ -1,0 +1,96 @@
+---
+datasources:
+  git: # if there is no 'columns' nor 'values' array, it means all documents have the same structure
+  - identities: [author, Author, Commit]
+  confluence:
+  - identities: [author, by]
+  groupsio:
+  - identities: [author, recipient]
+    max: [1, 50] # if there is a 'max' it specifies how many items given item can have
+                 # say identities is [author, recipient], max is [1, 50]
+                 # so there can only be 1 'author' identity, but up to 50 recipients
+                 # multiple recipients: recipient, recipient_2, ..., recipient_N, N <=50
+                 # 0 means the same as 1, -1 means that there can be unlimited number
+  rocketchat:
+  - identities: [author, u]
+  jira:
+  - columns: [type]
+    values: [issue]
+    identities: [author, assignee, reporter, creator]
+  - columns: [type]
+    values: [comment]
+    identities: [author, updateAuthor]
+  gerrit:
+  - columns: [type]
+    values: [changeset]
+    identities: [author, owner, changeset_author]
+  - columns: [type]
+    values: [comment]
+    identities: [author, reviewer, changeset_author]
+  - columns: [type]
+    values: [patchset]
+    identities: [author, author, uploader, changeset_author]
+  - columns: [type]
+    values: [approval]
+    identities: [author, by, changeset_author]
+  github:
+  - columns: [category, type]
+    values: [issue, issue]
+    identities: [author, user_data, assignee_data]
+  - columns: [category, type]
+    values: [issue, issue_comment]
+    identities: [author, user_data, commenter]
+  - columns: [category, type]
+    values: [issue, issue_assignee]
+    identities: [author, assignee]
+  - columns: [category, type]
+    values: [issue, issue_reaction]
+    identities: [author, user_data, actor]
+  - columns: [category, type]
+    values: [issue, issue_comment_reaction]
+    identities: [author, user_data, actor]
+  - columns: [category, type]
+    values: [pull_request, pull_request]
+    identities: [author, assignee_data, merged_by_data]
+  - columns: [category, type]
+    values: [pull_request, pull_request_review]
+    identities: [author, user_data, reviewer]
+  - columns: [category, type]
+    values: [pull_request, pull_request_comment]
+    identities: [author, user_data, commenter]
+  - columns: [category, type]
+    values: [pull_request, pull_request_assignee]
+    identities: [author, assignee]
+  - columns: [category, type]
+    values: [pull_request, pull_request_requested_reviewer]
+    identities: [author, requested_reviewer]
+  - columns: [category, type]
+    values: [pull_request, pull_request_comment_reaction]
+    identities: [author, user_data, actor]
+  - columns: [category]
+    values: [repository] # no identities array or empty [] means there are no identities for github/repository
+default:  # fall back to this when no DS-specific configuration can be found
+  - author
+  - Author
+  - Commit
+  - by
+  - recipient
+  - u
+  - assignee
+  - reporter
+  - creator
+  - updateAuthor
+  - owner
+  - changeset_author
+  - reviewer
+  - uploader
+  - user_data
+  - assignee_data
+  - merged_by_data
+  - requested_reviewer
+  - commenter
+  - actor
+  - From
+  - assigned_to
+  - creator_detail
+  - 'recipient_[2-50]' # means it can be from recipient_2 to recipient_50
